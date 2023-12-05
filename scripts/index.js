@@ -3,7 +3,9 @@ const todoListEl = document.querySelector('.todo-list');
 const submitBtn = document.forms.addTodoForm.submitBtn;
 const todoInput = document.forms.addTodoForm.todoContent;
 
-let count = 0;
+const checkBoxFilter = document.querySelector('.todo-filter-label__input');
+
+let count = 1;
 
 todoInput.oninput = function() {
     if (todoInput.value.trim().length > 0) {
@@ -17,13 +19,16 @@ todoInput.oninput = function() {
 submitBtn.onclick = function(e) {
     e.preventDefault();
 
-    todoListEl.children.length === 0 
-        ? count = 1 
-        : count++
-
     renderTodoList(todos, todoListEl, count);
-    todoInput.value = '';
-    submitBtn.setAttribute('disabled', '');
+    initHiddenLabel(todoListEl);
+    
+    if (todoListEl.children.length === 0) {
+        updateElCount();
+    }
+}
+
+checkBoxFilter.onchange = function() {
+    checkUnfinishedTodo(todoInput, submitBtn)
 }
 
 console.log(todos);

@@ -6,6 +6,11 @@
 
 body {
     font-family: sans-serif;
+    background: #65b177;
+    background: linear-gradient(179deg, rgba(101,177,119,1) 0%, rgba(78,163,197,1) 100%);
+    background-repeat: no-repeat;
+    height: 100lvh;
+    max-height: 1080px;
 }
 
 fieldset {
@@ -17,11 +22,20 @@ label {
     margin: 10px;
 }
 
+h1 {
+    text-transform: uppercase;
+}
+
+h1, span, p, label {
+    color: #c0d7c6;
+}
+
 input,
 button {
     display: block;
     padding: 10px;
     border: 1px solid silver;
+    border-radius: .5rem;
 }
 
 button {
@@ -30,7 +44,12 @@ button {
 }
 
 button:hover {
-    background: grey;
+    background: #51a5bb;
+    filter: brightness(120%);
+}
+
+button:disabled {
+    pointer-events: none;
 }
 
 input:focus {
@@ -67,17 +86,39 @@ input:focus {
 .todo-item {
     display: flex;
     align-items: center;
-    margin-bottom: 3px;
-    padding: 5px;
+    margin-bottom: .5rem;
+    padding: 10px;
     position: relative;
+    border: 2px solid #a2cdac;
+    border-radius: .6rem;
 }
 
 .todo-item:last-child {
     margin-bottom: 0;
 }
 
-.todo-item:nth-child(even) {
-    background: #ebebeb;
+.todo-filter-label {
+    display: inline-flex;
+    align-items: center;
+}
+
+.todo-filter-label_hidden {
+    display: none;
+}
+
+.todo-filter-label__input {
+    margin-left: 1rem;
+}
+
+.todo-item__completed,
+.todo-filter-label__input {
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: .3rem;
+}
+
+.todo-item_completed {
+    background: #a2cdac;
 }
 
 .todo-item_completed::before {
@@ -88,13 +129,29 @@ input:focus {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    z-index: 100;
 }
 
-.todo-item__number {}
+.todo-item__number {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    border: 2px solid #c0d7c6;
+    color: #cdd0ce;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .todo-item__completed {}
 
-.todo-item__text {}
+.todo-item__text {
+    max-width: 100%;
+    text-wrap: wrap;
+    overflow: hidden;
+    color: #cdd0ce;
+    font-size: 1.2rem;
+}
 
 .todo-item__delBtn {
     margin-left: auto;

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "shortcut icon" href="./img/checklist.png">
     <link rel="stylesheet" href="./css/style.css">
     <title>To do list</title>
 </head>
@@ -17,7 +18,12 @@
                 <button type = "submit" name = "submitBtn" disabled>Add to list</button>
             </form>
 
-            <div class="todo-filter-block"></div>
+            <div class="todo-filter-block">
+                <label class="todo-filter-label todo-filter-label_hidden">
+                    not completed
+                    <input type="checkbox" name="checkboxFilter" class="todo-filter-label__input">
+                </label>
+            </div>
 
             <ul class="todo-list"></ul>
 

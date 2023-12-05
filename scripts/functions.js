@@ -56,7 +56,9 @@ function initTodoEl(arr) {
 }
 
 function saveData(count, value) {
-    todos.push({id: count, text: value, completed: false});
+    if (count!== undefined) {
+        todos.push({id: count, text: value, completed: false})
+    };
 }
 
 function updateElCount() {
@@ -86,15 +88,64 @@ function updateData(arr, inputs) {
 }
 
 function initDeleteTodoEl(arr, btns) {
+
     btns.forEach(function(btn) {
         btn.onclick = function() {
             const id = this.parentElement.dataset.id
             const index = arr.findIndex(function(i) {return i.id == id});
+            const parent = this.parentElement;
+            const mainParent = parent.parentElement;
+
             if (index !== -1) {
-            arr.splice(index, 1);
+                arr.splice(index, 1);
             }
+
             this.parentElement.remove();
+
+            if (mainParent.children.length === 0) {
+                const checkBoxFilter = document.querySelector('.todo-filter-label__input');
+                const label = document.querySelector('.todo-filter-label');
+                const todoInput = document.forms.addTodoForm.todoContent;
+
+                renderTodoList(todos, todoListEl);
+                todoInput.removeAttribute('disabled');
+                todos.length = 0;
+                checkBoxFilter.checked = false;
+                renderTodoList(todos, todoListEl);
+                initHiddenLabel(mainParent);
+                label.classList.add('todo-filter-label_hidden');
+            }
             updateElCount();
         }
     })
+}
+
+function initHiddenLabel(parentEl) {
+    const label = document.querySelector('.todo-filter-label');
+
+    if (parentEl.children.length === 0) {
+        count = 1;
+    } else {
+        count++;
+        label.classList.remove('todo-filter-label_hidden');
+    }
+
+    todoInput.value = '';
+    submitBtn.setAttribute('disabled', '');
+}
+
+function checkUnfinishedTodo(input, btn) {
+    const filteredArr = todos.filter(function(item) {
+        return !item.completed;
+    });
+
+    if (checkBoxFilter.checked) {
+        renderTodoList(filteredArr, todoListEl)
+        input.setAttribute('disabled', '');
+        input.value = '';
+        btn.setAttribute('disabled', '');
+    } else {
+        renderTodoList(todos, todoListEl);
+        input.removeAttribute('disabled');
+    }
 }
