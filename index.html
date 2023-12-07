@@ -14,8 +14,16 @@
         <div class="todo-app">
 
             <form action="#" class="add-todo-form" name="addTodoForm">
-                <input type="text" placeholder="Write here" name = "todoContent" class="add-todo-form__input">
-                <button type = "submit" name = "submitBtn" disabled>Add to list</button>
+                <button type="submit" name="removeAllBtn" class="add-todo-form__button add-todo-form__button_removeAll">Remove all todos</button>
+                <div class="content">
+                    <textarea type="text" placeholder="Write here" name = "todoContent" class="add-todo-form__input" maxlength="150"></textarea>
+                    <div class="absolute-div">
+                        <span class="content__value content__value_current">0</span>
+                        <span>/</span>
+                        <span class="content__value content__value_max">150</span>
+                    </div>
+                </div>
+                <button type = "submit" name = "submitBtn" class="add-todo-form__button add-todo-form__button_submit" disabled>Add to list</button>
             </form>
 
             <div class="todo-filter-block">
@@ -26,7 +34,6 @@
             </div>
 
             <ul class="todo-list"></ul>
-
         </div>
 
     </div>

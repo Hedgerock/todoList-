@@ -22,6 +22,17 @@ label {
     margin: 10px;
 }
 
+textarea {
+    resize: none;
+    height: 5rem;
+    border: 1px solid silver;
+    font-family: sans-serif;
+    font-size: 1.1rem;
+    border-radius: .6rem;
+    padding: .4rem;
+    outline: none;
+}
+
 h1 {
     text-transform: uppercase;
 }
@@ -70,16 +81,46 @@ input:focus {
 .add-todo-form {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
     margin-top: 2rem;
 }
 
+.content,
 .add-todo-form__input {
-    width: 80%;
+    width: 100%;
+}
+
+.add-todo-form__button {
+    height: 50%;
+    width: 25%;
+    align-self: flex-end;
+    margin-bottom: 5px;
+}
+
+.add-todo-form__button_removeAll {
+    align-self: flex-end;
+}
+
+.add-todo-form__button_submit {
+    align-self: flex-start;
+}
+
+.content {
+    position:relative;
+}
+
+.absolute-div {
+    position: absolute;
+    bottom: -20px;
+    right: 15px;
+    background: white;
+    padding: 5px;
 }
 
 .todo-list {
     padding-top: 20px;
-    margin-top: 20px;
+    margin-top: 40px;
     border-top: 3px solid silver;
 }
 
@@ -88,9 +129,11 @@ input:focus {
     align-items: center;
     margin-bottom: .5rem;
     padding: 10px;
+    padding-left: 5rem;
     position: relative;
     border: 2px solid #a2cdac;
     border-radius: .6rem;
+    position: relative;
 }
 
 .todo-item:last-child {
@@ -119,6 +162,7 @@ input:focus {
 
 .todo-item_completed {
     background: #a2cdac;
+    transition: all .3s;
 }
 
 .todo-item_completed::before {
@@ -128,6 +172,7 @@ input:focus {
     background: black;
     position: absolute;
     top: 50%;
+    left: 0;
     transform: translateY(-50%);
     z-index: 100;
 }
@@ -141,9 +186,22 @@ input:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
 }
 
-.todo-item__completed {}
+.todo-item__number,
+.todo-item__completed {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.todo-item__completed {
+    left: 45px;
+}
 
 .todo-item__text {
     max-width: 100%;
@@ -169,12 +227,20 @@ input:focus {
 
     .add-todo-form__input {
         width: 100%;
-        margin-bottom: 1.5rem;
+        margin: 2rem 0 4rem 0;
+    }
+
+    .absolute-div {
+        bottom: 42px;
+    }
+
+    .add-todo-form__button {
+        width: 100%;
     }
 }
 
 @media (max-width: 320px) {
     body {
-        min-width: 320px;
+        max-width: 320px;
     }
 }

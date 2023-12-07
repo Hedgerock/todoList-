@@ -1,25 +1,34 @@
-const todos = [];
+const todos = JSON.parse(localStorage.getItem('todos')) || [];
 
-function renderTodoList (data, parentEl, count) {
-    if (!checkedValidArgs(data, parentEl)) {
+function renderTodoList (rawData, parentEl, count) {
+    if (!checkedValidArgs(rawData, parentEl)) {
         return;
     }
 
     const todoContent = document.forms.addTodoForm.todoContent;
+    const checkBoxFilter = document.querySelector('.todo-filter-label__input').checked;
 
-    saveData(count, todoContent.value)
+    saveData(count, todoContent.value, rawData);
+
+    const data = checkUnfinishedTodo(rawData, todoContent, checkBoxFilter)
+
+    initSortByCompleted(data)
 
     parentEl.innerHTML = initTodoEl(data);
 
     const todoItemCompleted = document.querySelectorAll('.todo-item__completed');
     const delBtn = document.querySelectorAll('.todo-item__delBtn');
 
+    setDisabledToDltBtns(checkBoxFilter, delBtn);
+
     if (!todoItemCompleted.length) {
         return;
     } 
 
-    updateData(data, todoItemCompleted);
-    initDeleteTodoEl(data, delBtn);
+    updateData(todoItemCompleted);
+
+    initDeleteTodoEl(delBtn);
+    saveToLocalStorage();
 }
 
 function checkedValidArgs(data, parentEl) {
@@ -55,11 +64,12 @@ function initTodoEl(arr) {
     return todoItems;
 }
 
-function saveData(count, value) {
-    if (count!== undefined) {
-        todos.push({id: count, text: value, completed: false})
-    };
+function saveData(count, value, arr) {
+    if (count !== undefined && value !== '') {
+        arr.push({id: count, text: value, completed: false});
+    }
 }
+
 
 function updateElCount() {
     const update = document.querySelectorAll('.todo-item');
@@ -69,11 +79,12 @@ function updateElCount() {
     })
 }
 
-function updateData(arr, inputs) {
+function updateData(inputs) {
     inputs.forEach(function(input) {
         input.onchange = function() {
+            const todoListEl = document.querySelector('.todo-list');
             const id = this.parentElement.dataset.id
-            const todo = arr.find(function(t) {
+            const todo = todos.find(function(t) {
                 return t.id == id;
             })
     
@@ -83,21 +94,25 @@ function updateData(arr, inputs) {
     
             todo.completed = !todo.completed;
             this.parentElement.classList.toggle('todo-item_completed');
+
+            initSortByCompleted(todos)
+            renderTodoList(todos, todoListEl);
+            saveToLocalStorage();
         }
     })
 }
 
-function initDeleteTodoEl(arr, btns) {
+function initDeleteTodoEl(btns) {
 
     btns.forEach(function(btn) {
         btn.onclick = function() {
             const id = this.parentElement.dataset.id
-            const index = arr.findIndex(function(i) {return i.id == id});
+            const index = todos.findIndex(function(i) {return i.id == id});
             const parent = this.parentElement;
             const mainParent = parent.parentElement;
 
             if (index !== -1) {
-                arr.splice(index, 1);
+                todos.splice(index, 1);
             }
 
             this.parentElement.remove();
@@ -106,46 +121,109 @@ function initDeleteTodoEl(arr, btns) {
                 const checkBoxFilter = document.querySelector('.todo-filter-label__input');
                 const label = document.querySelector('.todo-filter-label');
                 const todoInput = document.forms.addTodoForm.todoContent;
-
-                renderTodoList(todos, todoListEl);
                 todoInput.removeAttribute('disabled');
                 todos.length = 0;
                 checkBoxFilter.checked = false;
                 renderTodoList(todos, todoListEl);
                 initHiddenLabel(mainParent);
                 label.classList.add('todo-filter-label_hidden');
+                todosLengthValidation();
             }
+
             updateElCount();
+            saveToLocalStorage();
         }
     })
 }
 
 function initHiddenLabel(parentEl) {
     const label = document.querySelector('.todo-filter-label');
+    count++;
 
-    if (parentEl.children.length === 0) {
-        count = 1;
-    } else {
-        count++;
+    if (parentEl.children.length !== 0) {
         label.classList.remove('todo-filter-label_hidden');
     }
 
     todoInput.value = '';
+    setMaxLengthContent();
+    updateElCount();
     submitBtn.setAttribute('disabled', '');
 }
 
-function checkUnfinishedTodo(input, btn) {
-    const filteredArr = todos.filter(function(item) {
-        return !item.completed;
+function checkUnfinishedTodo(data, input, chk) {
+    let filteredTodos = [];
+    if (chk) {
+      filteredTodos = data.filter(function(todo) {
+        return !todo.completed;
+      });
+      input.value = '';
+    } else {
+      filteredTodos = data.filter(function(todo) {
+        return todo;
+      });
+    }
+    return filteredTodos;
+}
+
+function setDisabledToDltBtns(booleanValue ,btns) {
+    if (booleanValue) {
+        btns.forEach(function(item) {
+            item.setAttribute('disabled', '');
+        })
+    } else {
+        btns.forEach(function(item) {
+            item.removeAttribute('disabled');
+        })
+    }
+}
+
+function initSortByCompleted(arr) {
+    return arr.sort(function(a,b) {
+        return a.completed - b.completed;
+    })
+}
+
+function setMaxLengthContent () {
+    const textArea = document.forms.addTodoForm.todoContent;
+    const currentValue = document.querySelector('.content__value_current');
+
+    currentValue.textContent = textArea.value.trim().length;
+}
+
+
+function saveToLocalStorage() {
+    const jsonData = JSON.stringify(todos);
+
+    localStorage.setItem('todos', jsonData);
+}
+
+function checkChildrenLength() {
+    const label = document.querySelector('.todo-filter-label');
+
+    todos.length > 0
+        ? label.classList.remove('todo-filter-label_hidden')
+        : label.classList.add('todo-filter-label_hidden')
+}
+
+function checkCheckBoxStatus(chk) {
+
+    chk.addEventListener('change', function() {
+        localStorage.setItem('checkboxState', chk.checked);
     });
 
-    if (checkBoxFilter.checked) {
-        renderTodoList(filteredArr, todoListEl)
-        input.setAttribute('disabled', '');
-        input.value = '';
-        btn.setAttribute('disabled', '');
-    } else {
-        renderTodoList(todos, todoListEl);
-        input.removeAttribute('disabled');
-    }
+    window.addEventListener('load', function() {
+        const savedState = localStorage.getItem('checkboxState');
+        if (savedState !== null) {
+            chk.checked = savedState === 'true';
+            checkUnfinishedTodo(todos, todoInput, isChecked);
+            renderTodoList(todos, todoListEl, count);
+        }
+    });
+
+}
+
+function todosLengthValidation() {
+    todos.length > 0 
+        ? removeAllBtn.removeAttribute('disabled')
+        : removeAllBtn.setAttribute('disabled', '');
 }
