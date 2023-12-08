@@ -1,14 +1,12 @@
 const todos = JSON.parse(localStorage.getItem('todos')) || [];
 
-function renderTodoList (rawData, parentEl, count) {
+function renderTodoList (rawData, parentEl) {
     if (!checkedValidArgs(rawData, parentEl)) {
         return;
     }
 
     const todoContent = document.forms.addTodoForm.todoContent;
     const checkBoxFilter = document.querySelector('.todo-filter-label__input').checked;
-
-    saveData(count, todoContent.value, rawData);
 
     const data = checkUnfinishedTodo(rawData, todoContent, checkBoxFilter)
 
@@ -64,13 +62,6 @@ function initTodoEl(arr) {
     return todoItems;
 }
 
-function saveData(count, value, arr) {
-    if (count !== undefined && value !== '') {
-        arr.push({id: count, text: value, completed: false});
-    }
-}
-
-
 function updateElCount() {
     const update = document.querySelectorAll('.todo-item');
     update.forEach(function(item, index) {
@@ -118,14 +109,7 @@ function initDeleteTodoEl(btns) {
             this.parentElement.remove();
 
             if (mainParent.children.length === 0) {
-                const checkBoxFilter = document.querySelector('.todo-filter-label__input');
                 const label = document.querySelector('.todo-filter-label');
-                const todoInput = document.forms.addTodoForm.todoContent;
-                todoInput.removeAttribute('disabled');
-                todos.length = 0;
-                checkBoxFilter.checked = false;
-                renderTodoList(todos, todoListEl);
-                initHiddenLabel(mainParent);
                 label.classList.add('todo-filter-label_hidden');
                 todosLengthValidation();
             }
@@ -138,7 +122,6 @@ function initDeleteTodoEl(btns) {
 
 function initHiddenLabel(parentEl) {
     const label = document.querySelector('.todo-filter-label');
-    count++;
 
     if (parentEl.children.length !== 0) {
         label.classList.remove('todo-filter-label_hidden');
@@ -216,7 +199,7 @@ function checkCheckBoxStatus(chk) {
         if (savedState !== null) {
             chk.checked = savedState === 'true';
             checkUnfinishedTodo(todos, todoInput, isChecked);
-            renderTodoList(todos, todoListEl, count);
+            renderTodoList(todos, todoListEl);
         }
     });
 
