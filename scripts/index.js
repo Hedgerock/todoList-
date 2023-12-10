@@ -40,9 +40,11 @@ removeAllBtn.onclick = function() {
     localStorage.setItem('checkboxState', checkBoxFilter.checked);
     removeAllBtn.setAttribute('disabled', '');
     todos.length = 0;
+
     initHiddenLabel(todoListEl);
     renderTodoList(todos, todoListEl);
     checkChildrenLength();
+    
     saveToLocalStorage();
 }
 

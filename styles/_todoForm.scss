@@ -1,0 +1,116 @@
+.add-todo-form {
+    @include flex(space-between);
+    flex-direction: column;
+    margin-top: 2rem;
+
+    &__button {
+        @include WHBR(25%, 50%, .5rem);
+        margin-bottom: 5px;
+
+        &_removeAll {
+            align-self: flex-end;
+        }
+        &_submit {
+            align-self: flex-start;
+        }
+    }
+}
+
+.content,
+.add-todo-form__input {
+    width: 100%;
+}
+
+.content,
+.todo-item {
+    position:relative;
+}
+
+.absolute-div {
+    @include absolutePosition(initial, initial, -20px, 15px);
+    background: white;
+    padding: 5px;
+}
+
+.todo-list {
+    padding-top: 20px;
+    margin-top: 40px;
+    border-top: 3px solid silver;
+}
+
+.todo-item {
+    @include flex(flex-start);
+    margin-bottom: .5rem;
+    padding: 10px;
+    padding-left: 5rem;
+    border: 2px solid #a2cdac;
+    border-radius: .6rem;
+
+    &__number,
+    &__completed {
+        @include absolutePosition(50%);
+        transform: translateY(-50%);
+    }
+
+    &__number {
+        @include WHBR(1.8rem, 1.8rem, 50%);
+        @include flex;
+        @include absolutePosition(50%, 5px);
+        border: 2px solid #c0d7c6;
+        color: #cdd0ce;
+        transform: translateY(-50%);
+    }
+
+    &__completed {
+        left: 45px;
+    }
+
+    &__text {
+        max-width: 100%;
+        text-wrap: wrap;
+        overflow: hidden;
+        color: #cdd0ce;
+        font-size: 1.2rem;
+    }
+
+    &__delBtn {
+        margin-left: auto;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &_completed {
+        background: #a2cdac;
+        transition: all .3s;
+
+        &::before {
+            content: '';
+            @include WHBR(100%, 1px);
+            @include absolutePosition(50%, 0);
+            background: black;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+    }
+}
+
+.todo-item__completed, 
+.todo-filter-label__input {
+    @include WHBR(1.3rem, 1.3rem, .3rem);
+    cursor: pointer;
+}
+
+.todo-filter-label {
+    display: inline-flex;
+    align-items: center;
+
+    &__input {
+        margin-left: 1rem;
+    }
+
+    &_hidden {
+        display: none;
+    }
+}

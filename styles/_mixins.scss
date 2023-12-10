@@ -1,0 +1,19 @@
+@mixin flex ($jc:center, $ai:center) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+}
+
+@mixin WHBR ($w:initial, $h:initial, $br:initial) {
+    width: $w;
+    height: $h;
+    border-radius: $br;
+}
+
+@mixin absolutePosition ($t:initial, $l:initial, $b:initial, $r:initial) {
+    position: absolute;
+    top: $t;
+    left: $l;
+    bottom: $b;
+    right: $r;
+}

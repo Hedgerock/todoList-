@@ -1,0 +1,29 @@
+@media (max-width: 600px) {
+    body {
+        padding: 1rem;
+        min-height: 100lvh;
+    }
+
+    .add-todo-form {
+        flex-direction: column;
+
+        &__input {
+            width: 100%;
+            margin: 2rem 0 4rem 0;
+        }
+
+        &__button {
+            width: 100%;
+        }
+    }
+
+    .absolute-div {
+        bottom: 42px;
+    }
+}
+
+@media (max-width: 320px) {
+    body {
+        max-width: 320px;
+    }
+}
