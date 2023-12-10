@@ -78,7 +78,7 @@ function saveData() {
     text: text,
     completed: false,
     }
-    todos.push(newTodo);
+    todos.unshift(newTodo);
 }
 
 console.log(todos);

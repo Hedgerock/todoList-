@@ -170,7 +170,7 @@ function setMaxLengthContent () {
     const textArea = document.forms.addTodoForm.todoContent;
     const currentValue = document.querySelector('.content__value_current');
 
-    currentValue.textContent = textArea.value.trim().length;
+    currentValue.textContent = textArea.value.trim().replaceAll(' ', '').length;
 }
 
 
