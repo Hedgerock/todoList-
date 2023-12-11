@@ -36,6 +36,7 @@
     padding-top: 20px;
     margin-top: 40px;
     border-top: 3px solid silver;
+    position: relative;
 }
 
 .todo-item {
@@ -84,6 +85,7 @@
     &_completed {
         background: #a2cdac;
         transition: all .3s;
+        transform: translateY(80%);
 
         &::before {
             content: '';

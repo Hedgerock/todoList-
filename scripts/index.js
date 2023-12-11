@@ -9,11 +9,19 @@ const checkBoxFilter = document.querySelector('.todo-filter-label__input');
 let isChecked = checkBoxFilter.checked;
 
 let lastId = todos.length 
-  ? todos[todos.length - 1].id
+  ? initSortById(todos)
   : 0;
 
 
 todosLengthValidation()
+
+checkCheckBoxStatus(checkBoxFilter);
+
+checkChildrenLength(todoListEl)
+
+renderTodoList(todos, todoListEl);
+
+setMaxLengthContent();
 
 todoInput.oninput = function() {
     setMaxLengthContent();
@@ -27,10 +35,27 @@ todoInput.oninput = function() {
 }
 
 checkBoxFilter.onchange = function() {
+    isChecked = this.checked;
+
+    const delBtn = document.querySelectorAll('.todo-item__delBtn');
+    setDisabledToDltBtns(isChecked, delBtn)
+
+    if (isChecked) {
+        checkboxAnimationCheckedOnly();
+        saveToLocalStorage();
+        return;
+    }
 
     checkUnfinishedTodo(todos, todoInput, isChecked);
+
     initHiddenLabel(todoListEl);
+
     renderTodoList(todos, todoListEl);
+
+
+    if (!isChecked) {
+        checkboxAnimation();
+    }
 
     saveToLocalStorage()
 }
@@ -39,10 +64,13 @@ removeAllBtn.onclick = function() {
     checkBoxFilter.checked = false;
     localStorage.setItem('checkboxState', checkBoxFilter.checked);
     removeAllBtn.setAttribute('disabled', '');
+
     todos.length = 0;
 
     initHiddenLabel(todoListEl);
-    renderTodoList(todos, todoListEl);
+
+    removeAllAnimation();
+
     checkChildrenLength();
     
     saveToLocalStorage();
@@ -59,18 +87,12 @@ submitBtn.onclick = function(e) {
     renderTodoList(todos, todoListEl);
     initHiddenLabel(todoListEl);
 
-    saveToLocalStorage()
+    initAddingAnimation();
+
+    saveToLocalStorage();
 
     todosLengthValidation();
 }
-
-checkCheckBoxStatus(checkBoxFilter);
-
-checkChildrenLength(todoListEl)
-
-renderTodoList(todos, todoListEl);
-
-setMaxLengthContent();
 
 function saveData() {
     const text = todoInput.value;
@@ -84,3 +106,5 @@ function saveData() {
 }
 
 console.log(todos);
+
+console.log(initSortById(todos))

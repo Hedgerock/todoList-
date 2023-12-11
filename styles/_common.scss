@@ -6,11 +6,6 @@
 
 body {
     font-family: sans-serif;
-    background: #65b177;
-    background: linear-gradient(179deg, rgba(101,177,119,1) 0%, rgba(78,163,197,1) 100%);
-    background-repeat: no-repeat;
-    max-height: 100%;
-    min-height: 980px;
 }
 
 fieldset {
@@ -69,6 +64,18 @@ input:focus {
 
 .mr-1 {
     margin-right: 10px;
+}
+
+.main-container {
+    background: #65b177;
+    background: linear-gradient(179deg, rgba(101,177,119,1) 0%, rgba(78,163,197,1) 100%);
+    background-repeat: no-repeat;
+    max-height: 100%;
+    min-height: 980px;
+    overflow: auto;
+    padding-bottom: 4rem;
+
+    transition: all .3s;
 }
 
 .container {

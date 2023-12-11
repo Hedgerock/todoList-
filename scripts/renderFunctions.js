@@ -28,8 +28,10 @@ function initTodoEl(arr) {
         `;
         return todoItem })
     .join('');
+
     return todoItems;
 }
+
 
 function updateElCount() {
     const update = document.querySelectorAll('.todo-item');
@@ -37,6 +39,22 @@ function updateElCount() {
         const updatedEl = item.querySelector('.todo-item__number');
         updatedEl.textContent = index + 1;
     })
+}
+
+function initSortById(arr) {
+    if (arr.length === 0) {
+        return null;
+    }
+
+    const arrId = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        arrId.push(arr[i].id);
+    }
+
+    const maxEl = arrId.sort((a,b) => Number(b) - Number(a));
+
+    return maxEl[0];
 }
 
 function initSortByCompleted(arr) {
@@ -48,8 +66,8 @@ function initSortByCompleted(arr) {
 function updateData(inputs) {
     inputs.forEach(function(input) {
         input.onchange = function() {
-            const todoListEl = document.querySelector('.todo-list');
             const id = this.parentElement.dataset.id
+            const parent = this.parentElement;
             const todo = todos.find(function(t) {
                 return t.id == id;
             })
@@ -57,12 +75,19 @@ function updateData(inputs) {
             if (!todo) {
                 return;
             }
-    
+
             todo.completed = !todo.completed;
             this.parentElement.classList.toggle('todo-item_completed');
-
             initSortByCompleted(todos)
-            renderTodoList(todos, todoListEl);
+
+            if (input.checked) {
+                parent.style.transform = 'translateY(0)'
+                initCheckedAnimation(parent, '100%');
+            } else {
+                parent.style.transform = 'translateY(80%)'
+                initCheckedAnimation(parent, '-100%');
+            }
+
             saveToLocalStorage();
         }
     })
@@ -80,16 +105,9 @@ function initDeleteTodoEl(btns) {
             if (index !== -1) {
                 todos.splice(index, 1);
             }
+            
+            initDeletingAnimation(parent, mainParent);
 
-            this.parentElement.remove();
-
-            if (mainParent.children.length === 0) {
-                const label = document.querySelector('.todo-filter-label');
-                label.classList.add('todo-filter-label_hidden');
-                todosLengthValidation();
-            }
-
-            updateElCount();
             saveToLocalStorage();
         }
     })

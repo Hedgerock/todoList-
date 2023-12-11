@@ -7,11 +7,6 @@
 
 body {
   font-family: sans-serif;
-  background: #65b177;
-  background: linear-gradient(179deg, rgb(101, 177, 119) 0%, rgb(78, 163, 197) 100%);
-  background-repeat: no-repeat;
-  max-height: 100%;
-  min-height: 980px;
 }
 
 fieldset {
@@ -74,6 +69,18 @@ input:focus {
   margin-right: 10px;
 }
 
+.main-container {
+  background: #65b177;
+  background: linear-gradient(179deg, rgb(101, 177, 119) 0%, rgb(78, 163, 197) 100%);
+  background-repeat: no-repeat;
+  max-height: 100%;
+  min-height: 980px;
+  overflow: auto;
+  padding-bottom: 4rem;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
 .container {
   max-width: 500px;
   margin: 50px auto;
@@ -134,6 +141,7 @@ input:focus {
   padding-top: 20px;
   margin-top: 40px;
   border-top: 3px solid silver;
+  position: relative;
 }
 
 .todo-item {
@@ -206,6 +214,9 @@ input:focus {
   background: #a2cdac;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
+  -webkit-transform: translateY(80%);
+      -ms-transform: translateY(80%);
+          transform: translateY(80%);
 }
 .todo-item_completed::before {
   content: "";
@@ -249,8 +260,10 @@ input:focus {
 
 @media (max-width: 600px) {
   body {
-    padding: 1rem;
     min-height: 100lvh;
+  }
+  .main-container {
+    padding: 1rem;
   }
   .add-todo-form {
     -webkit-box-orient: vertical;
