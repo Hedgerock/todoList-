@@ -14,8 +14,8 @@ function checkedValidArgs(data, parentEl) {
 
 function initTodoEl(arr) {
     let todoItems = arr
-    .map(function(item, index) {
-        const todoItem = `
+    .map((item, index) =>
+        `
         <li class="todo-item ${item.completed ? 'todo-item_completed' : ''}" data-id = "${item.id}">
             <span class="todo-item__number mr-1">${index + 1}</span>
             <input 
@@ -25,8 +25,7 @@ function initTodoEl(arr) {
             <p class="todo-item__text mr-1">${item.text}</p>
             <button class="todo-item__delBtn">del</button>
         </li>
-        `;
-        return todoItem })
+        `)
     .join('');
 
     return todoItems;
@@ -35,7 +34,7 @@ function initTodoEl(arr) {
 
 function updateElCount() {
     const update = document.querySelectorAll('.todo-item');
-    update.forEach(function(item, index) {
+    update.forEach((item, index) => {
         const updatedEl = item.querySelector('.todo-item__number');
         updatedEl.textContent = index + 1;
     })
@@ -58,9 +57,7 @@ function initSortById(arr) {
 }
 
 function initSortByCompleted(arr) {
-    return arr.sort(function(a,b) {
-        return a.completed - b.completed;
-    })
+    return arr.sort((a,b) => a.completed - b.completed)
 }
 
 function updateData(inputs) {
@@ -129,25 +126,21 @@ function initHiddenLabel(parentEl) {
 function checkUnfinishedTodo(data, input, chk) {
     let filteredTodos = [];
     if (chk) {
-      filteredTodos = data.filter(function(todo) {
-        return !todo.completed;
-      });
+      filteredTodos = data.filter(todo => !todo.completed);
       input.value = '';
     } else {
-      filteredTodos = data.filter(function(todo) {
-        return todo;
-      });
+      filteredTodos = data.filter(todo => todo);
     }
     return filteredTodos;
 }
 
-function setDisabledToDltBtns(booleanValue ,btns) {
+function setDisabledToDltBtns(booleanValue, btns) {
     if (booleanValue) {
-        btns.forEach(function(item) {
+        btns.forEach(item => {
             item.setAttribute('disabled', '');
         })
     } else {
-        btns.forEach(function(item) {
+        btns.forEach(item => {
             item.removeAttribute('disabled');
         })
     }

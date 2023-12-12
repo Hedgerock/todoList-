@@ -17,6 +17,8 @@ function renderTodoList (rawData, parentEl) {
     const todoItemCompleted = document.querySelectorAll('.todo-item__completed');
     const delBtn = document.querySelectorAll('.todo-item__delBtn');
 
+    setDisabledToDltBtns(checkBoxFilter, delBtn)
+
     if (!todoItemCompleted.length) {
         return;
     } 

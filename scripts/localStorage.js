@@ -14,8 +14,8 @@ function checkCheckBoxStatus(chk) {
         const savedState = localStorage.getItem('checkboxState');
         if (savedState !== null) {
             chk.checked = savedState === 'true';
-            checkUnfinishedTodo(todos, todoInput, isChecked);
+            checkUnfinishedTodo(todos, todoInput, chk.checked);
             renderTodoList(todos, todoListEl);
         }
-    });
+    });    
 }
