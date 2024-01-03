@@ -23,6 +23,7 @@ function initTodoEl(arr) {
                 class="todo-item__completed mr-1"
                 name = "checkboxEl">
             <p class="todo-item__text mr-1">${item.text}</p>
+            <button class = "todo-item__copyBtn"><i class="fa-solid fa-copy"></i></button>
             <button class="todo-item__delBtn">del</button>
         </li>
         `)
@@ -106,6 +107,18 @@ function initDeleteTodoEl(btns) {
             initDeletingAnimation(parent, mainParent);
 
             saveToLocalStorage();
+        }
+    })
+}
+
+function initCopyBtn() {
+    const copyBtns = document.querySelectorAll('.todo-item__copyBtn');
+    
+    copyBtns.forEach(btn => {
+        btn.onclick = function() {
+            const parent = this.parentElement;
+            const textValue = parent.querySelector('.todo-item__text');
+            navigator.clipboard.writeText(textValue.textContent)
         }
     })
 }

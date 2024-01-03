@@ -26,5 +26,6 @@ function renderTodoList (rawData, parentEl) {
     updateData(todoItemCompleted);
 
     initDeleteTodoEl(delBtn);
+    initCopyBtn();
     saveToLocalStorage();
 }

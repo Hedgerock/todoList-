@@ -74,6 +74,12 @@
         font-size: 1.2rem;
     }
 
+    &__copyBtn {
+        @include absolutePosition(50%, 110%);
+
+        transform: translate(-50%, -50%);
+    }
+
     &__delBtn {
         margin-left: auto;
     }

@@ -204,6 +204,16 @@ input:focus {
   color: #cdd0ce;
   font-size: 1.2rem;
 }
+.todo-item__copyBtn {
+  position: absolute;
+  top: 50%;
+  left: 110%;
+  bottom: initial;
+  right: initial;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
 .todo-item__delBtn {
   margin-left: auto;
 }
